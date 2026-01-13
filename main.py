@@ -41,7 +41,7 @@ def main():
         print(f"Geocoding error: {e}")
         return
 
-    # Calculate start and end year
+    # Time range
     import datetime
     current_year = datetime.datetime.now().year
     end_year = current_year
