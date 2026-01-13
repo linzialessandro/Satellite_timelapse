@@ -2,17 +2,17 @@
 
 **Earth-Time-Lapse** is a powerful Python CLI tool that generates stunning satellite timelapse videos of any location on Earth using **Google Earth Engine (GEE)** and **Landsat** imagery.
 
-Watch urban expansion, deforestation, glacia retreat, or seasonal changes over the last 40 years. The tool automatically handles cloud masking, temporal smoothing, and video generation.
+Watch urban expansion, deforestation, glacial retreat, or seasonal changes over the last 40 years. The tool automatically handles cloud masking, temporal smoothing, and video generation, now optimized for social media content creation.
 
 ## Features ✨
 
+*   **Vertical Mode**: Native **9:16 support** (720x1280) for TikTok, Reels, and Shorts (`--vertical`).
+*   **Social Ready**: Aesthetic text overlays, "popping" natural colors, and smooth 10 FPS playback.
 *   **Any Location**: Generate timelapses for any place name (e.g., "Tokyo", "Grand Canyon") or coordinates.
 *   **Flexible Frequencies**: Choose between **Yearly**, **Quarterly**, or **Monthly** timelapses.
 *   **Temporal Smoothing**: Advanced **Moving Median** filter to reduce cloud flickering and create smooth transitions.
-*   **Date Overlays**: Automatically adds date labels (Year, Quarter, or Month) to the video.
 *   **Dual Output**: Generates both high-quality **GIF** and **MP4** formats.
 *   **Customizable**: Control the speed (FPS), zoom (radius), and resolution (width).
-*   **Automatic Zoom**: Focuses on your target with adjustable radius.
 
 ## Prerequisites 🛠️
 
@@ -41,22 +41,23 @@ Watch urban expansion, deforestation, glacia retreat, or seasonal changes over t
 
 2.  Create and activate a virtual environment:
     ```bash
+    # Using Conda (Recommended)
+    conda env create -f environment.yml
+    conda activate earth-timelapse
+    
+    # OR using venv
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-
-3.  Install dependencies:
-    ```bash
     pip install -r requirements.txt
     ```
 
-4.  Authenticate with Earth Engine:
+3.  Authenticate with Earth Engine:
     ```bash
     earthengine authenticate
     ```
     Follow the browser instructions.
 
-5.  Set your default project (Important!):
+4.  Set your default project (Important!):
     ```bash
     earthengine set_project <YOUR_PROJECT_ID>
     ```
@@ -65,22 +66,22 @@ Watch urban expansion, deforestation, glacia retreat, or seasonal changes over t
 
 Run the tool from the command line using `main.py`.
 
+### 📱 Vertical Video (Social Media)
+Generate a 15-year vertical timelapse of Tokyo for TikTok/Reels:
+```bash
+python main.py --place "Tokyo, Japan" --vertical --years 15
+```
+
 ### Basic Example (Yearly)
-Generate a 20-year timelapse of Udine, Italy:
+Generate a 20-year landscape timelapse of Udine, Italy:
 ```bash
 python main.py --place "Udine, Italy" --years 20
 ```
 
 ### Detailed Quarterly Timelapse
-Generate a smoother, quarterly timelapse over 10 years, playing at 8 FPS:
+Generate a smoother, quarterly timelapse over 10 years at a slower speed:
 ```bash
 python main.py --place "Szczecin, Poland" --years 10 --frequency quarter --fps 8
-```
-
-### Monthly Timelapse (Slow & Detailed)
-For a very detailed monthly view (requires smaller width to avoid size limits):
-```bash
-python main.py --place "Dubai" --years 5 --frequency month --width 400
 ```
 
 ### Arguments
@@ -88,11 +89,12 @@ python main.py --place "Dubai" --years 5 --frequency month --width 400
 | Argument | Description | Default |
 | :--- | :--- | :--- |
 | `--place` | Location name (e.g., "New York", "Paris") | **Required** |
+| `--vertical` | Enable 9:16 vertical mode (720x1280). | `False` |
 | `--years` | Number of years to go back from today | `20` |
 | `--frequency` | Temporal step: `year`, `quarter`, or `month` | `year` |
-| `--width` | Output GIF width in pixels. Reduce for monthly/long queries. | `768` |
-| `--radius` | Radius around the location in meters. Smaller = closer zoom. | `10000` (10km) |
-| `--fps` | Frames per second (playback speed). | `5` |
+| `--radius` | Radius around the location in meters. | `6000` (6km) |
+| `--fps` | Frames per second (playback speed). | `10` |
+| `--width` | Output GIF width in pixels. (Landscape only) | `768` |
 | `--output` | Base name for the output file. | `timelapse_<City>` |
 | `--project` | Google Cloud Project ID (if not set globally). | None |
 

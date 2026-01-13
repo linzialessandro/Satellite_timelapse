@@ -2,7 +2,7 @@ import argparse
 import sys
 import os
 
-# Ensure src is in path if needed, though usually automatic with local package structure
+# Add src to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 def main():
@@ -11,10 +11,11 @@ def main():
     parser.add_argument("--years", type=int, default=20, help="Number of years to go back (default: 20)")
     parser.add_argument("--output", type=str, default="timelapse", help="Base name for output file (default: timelapse)")
     parser.add_argument("--project", type=str, help="Google Cloud Project ID for Earth Engine")
-    parser.add_argument("--radius", type=int, default=10000, help="Radius around the location in meters (default: 10000)")
+    parser.add_argument("--radius", type=int, default=6000, help="Radius around the location in meters (default: 6000)")
     parser.add_argument("--frequency", type=str, default="year", choices=["year", "quarter", "month"], help="Timelapse frequency (default: year)")
     parser.add_argument("--width", type=int, default=768, help="Width of the output GIF in pixels (default: 768)")
-    parser.add_argument("--fps", type=int, default=5, help="Frames per second (default: 5)")
+    parser.add_argument("--fps", type=int, default=10, help="Frames per second (default: 10)")
+    parser.add_argument("--vertical", action="store_true", help="Generate vertical (9:16) video for mobile")
     
     args = parser.parse_args()
     
@@ -50,7 +51,7 @@ def main():
     # Generate Timelapse
     from src.timelapse import generate_timelapse
     try:
-        generate_timelapse(lat, lon, start_year, end_year, args.place, args.output, args.project, args.radius, args.frequency, args.width, args.fps)
+        generate_timelapse(lat, lon, start_year, end_year, args.place, args.output, args.project, args.radius, args.frequency, args.width, args.fps, args.vertical)
     except Exception as e:
         print(f"Failed to generate timelapse: {e}")
     

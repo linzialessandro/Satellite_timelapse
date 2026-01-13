@@ -1,0 +1,13 @@
+name: earth-timelapse
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - earthengine-api
+  - geemap
+  - geopy
+  - pillow
+  - pip:
+    - ffmpeg-python
